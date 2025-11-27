@@ -5,6 +5,7 @@ import { processAudioDraft } from './services/geminiService';
 import Recorder from './components/Recorder';
 import ResultDisplay from './components/ResultDisplay';
 import ExplainerAnimation from './components/ExplainerAnimation';
+import GmailComposeAnimation from './components/GmailComposeAnimation';
 
 // Helper to convert Blob to Base64
 const blobToBase64 = (blob: Blob): Promise<string> => {
@@ -22,6 +23,7 @@ const blobToBase64 = (blob: Blob): Promise<string> => {
 function App() {
   const [mode, setMode] = useState<DraftMode>(DraftMode.EMAIL_REPLY);
   const [context, setContext] = useState<string>("");
+  const [demoType, setDemoType] = useState<'linkedin' | 'gmail'>('linkedin');
   const [processingState, setProcessingState] = useState<ProcessingState>({
     isRecording: false,
     isProcessing: false,
@@ -122,18 +124,36 @@ function App() {
       {/* Video Explainer Section */}
       <section id="video-demo" className="py-20 bg-slate-50/50">
         <div className="max-w-7xl mx-auto px-6">
-          <div className="flex flex-col items-center mb-12">
-            <div className="bg-blue-100 text-blue-700 px-4 py-1 rounded-full text-sm font-bold mb-4 flex items-center gap-2">
-               <Linkedin className="w-4 h-4" /> 
-               LinkedIn Integration
-            </div>
+          <div className="flex flex-col items-center mb-8">
             <h2 className="text-3xl md:text-4xl font-bold text-slate-900 text-center mb-4">See AuxisAI in Action</h2>
-            <p className="text-slate-600 text-center max-w-2xl">
-              Watch how quickly you can reply to a recruiter or connection. Just speak your intent, and let our AI handle the professional phrasing.
+            <p className="text-slate-600 text-center max-w-2xl mb-8">
+              Watch how quickly you can draft messages. Just speak your intent, and let our AI handle the professional phrasing.
             </p>
+
+            {/* Toggle Switch */}
+            <div className="flex items-center gap-1 bg-white p-1 rounded-full border border-slate-200 shadow-sm mb-8">
+               <button 
+                 onClick={() => setDemoType('linkedin')}
+                 className={`px-5 py-2 rounded-full text-sm font-semibold transition-all flex items-center gap-2 ${
+                   demoType === 'linkedin' ? 'bg-indigo-600 text-white shadow-md' : 'text-slate-500 hover:text-slate-700 hover:bg-slate-50'
+                 }`}
+               >
+                 <Linkedin className="w-4 h-4" /> LinkedIn
+               </button>
+               <button 
+                 onClick={() => setDemoType('gmail')}
+                 className={`px-5 py-2 rounded-full text-sm font-semibold transition-all flex items-center gap-2 ${
+                   demoType === 'gmail' ? 'bg-indigo-600 text-white shadow-md' : 'text-slate-500 hover:text-slate-700 hover:bg-slate-50'
+                 }`}
+               >
+                 <Mail className="w-4 h-4" /> Gmail
+               </button>
+            </div>
           </div>
           
-          <ExplainerAnimation />
+          <div className="transition-all duration-500 ease-in-out">
+             {demoType === 'linkedin' ? <ExplainerAnimation /> : <GmailComposeAnimation />}
+          </div>
 
           <div className="text-center mt-8">
              <p className="text-sm font-medium text-slate-500 italic">“AuxisAI — Communicate smarter, faster, stress-free.”</p>
