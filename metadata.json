@@ -1,0 +1,7 @@
+{
+  "name": "Copy of AuxisAI",
+  "description": "A productivity tool that transforms voice input into professional emails and LinkedIn posts using Gemini 2.5 Flash.",
+  "requestFramePermissions": [
+    "microphone"
+  ]
+}
